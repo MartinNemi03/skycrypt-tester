@@ -1,0 +1,17 @@
+{
+  "name": "skycrypt-tester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.4",
+    "node-fetch": "^3.3.0",
+    "puppeteer": "^19.4.1"
+  }
+}
