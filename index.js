@@ -136,18 +136,31 @@ async function checkPages(limit = 2) {
     const preferredUsernameJson = path.resolve(_dirname, 'preferred-usernames.json');
     const usernameJson = path.resolve(_dirname, 'usernames.json');
 
-    await new Promise((resolve) => {
-        fs.readFile(usernameJson, (err, file) => {
-            if (err) throw err;
-    
-            JSON.parse(file).sort(() => (0.5 - Math.random())).forEach((username) => {
-                if (!usernames.includes(username))
-                    usernames.push(username);
-            });
+    await Promise.all(
+        new Promise((resolve) => {
+            fs.readFile(preferredUsernameJson, (err, file) => {
+                if (err) throw err;
+        
+                JSON.parse(file).forEach((username) => {
+                    if (!usernames.includes(username))
+                        usernames.push(username);
+                });
 
-            resolve();
-        });
-    });
+                resolve();
+            });
+        }), new Promise((resolve) => {
+            fs.readFile(usernameJson, (err, file) => {
+                if (err) throw err;
+        
+                JSON.parse(file).sort(() => (0.5 - Math.random())).forEach((username) => {
+                    if (!usernames.includes(username))
+                        usernames.push(username);
+                });
+
+                resolve();
+            });
+        })
+    );
 
     if (outOf > 0) {
         usernames = usernames.slice(0, outOf);
